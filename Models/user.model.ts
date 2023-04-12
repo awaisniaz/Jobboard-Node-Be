@@ -1,35 +1,29 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from '../db-connection'
-const User = sequelize?.define('User', {
-    id: {
-        type: DataTypes?.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+import mongoose from "mongoose";
+
+const User_schema = new mongoose.Schema({
+    first_name: {
+        type: String
     },
-    firstName: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    lastName: {
-        type: DataTypes?.STRING
+    last_name: {
+        type: String
     },
     email: {
-        type: DataTypes?.STRING,
-        unique: true
+        type: String,
+        unique: true,
+        required: true,
+        immutable: true
+
     },
     password: {
-        type: DataTypes?.STRING
+        type: String
     },
     profilePhoto: {
-        type: DataTypes?.TEXT,
-        defaultValue: null
-    },
-
-
+        type: String
+    }
 }, {
     timestamps: true
 })
 
-User.sync()
 
+const User = mongoose.model('User', User_schema)
 export default User

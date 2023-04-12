@@ -14,7 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.utilities = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const mail_1 = __importDefault(require("@sendgrid/mail"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const config_variable_1 = require("../config-variable");
 exports.utilities = {
     encodePassword: (pass) => __awaiter(void 0, void 0, void 0, function* () {
         const hash = yield bcrypt_1.default.hash(pass, 10);
@@ -29,6 +31,29 @@ exports.utilities = {
             data: email
         }, 'zoho-manager', { expiresIn: 60 });
         return token;
+    }),
+    decodeToken: (token) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(token);
+        var decoded = jsonwebtoken_1.default.verify(token, 'zoho-manager');
+        return decoded;
+    }),
+    send_Email: (email) => __awaiter(void 0, void 0, void 0, function* () {
+        mail_1.default.setApiKey(config_variable_1.Send_Grid_API);
+        const msg = {
+            to: email,
+            from: 'awaisniaz47@gmail.com',
+            subject: 'Sending with SendGrid is Fun',
+            text: 'and easy to do anywhere, even with Node.js',
+            html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+        };
+        mail_1.default
+            .send(msg)
+            .then(() => {
+            console.log('Email sent');
+        })
+            .catch((error) => {
+            console.error(error);
+        });
     })
 };
 //# sourceMappingURL=utilities.js.map

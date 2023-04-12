@@ -1,34 +1,31 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const sequelize_1 = require("sequelize");
-const db_connection_1 = require("../db-connection");
-const User = db_connection_1.sequelize === null || db_connection_1.sequelize === void 0 ? void 0 : db_connection_1.sequelize.define('User', {
-    id: {
-        type: sequelize_1.DataTypes === null || sequelize_1.DataTypes === void 0 ? void 0 : sequelize_1.DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+const mongoose_1 = __importDefault(require("mongoose"));
+const User_schema = new mongoose_1.default.Schema({
+    first_name: {
+        type: String
     },
-    firstName: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: true
-    },
-    lastName: {
-        type: sequelize_1.DataTypes === null || sequelize_1.DataTypes === void 0 ? void 0 : sequelize_1.DataTypes.STRING
+    last_name: {
+        type: String
     },
     email: {
-        type: sequelize_1.DataTypes === null || sequelize_1.DataTypes === void 0 ? void 0 : sequelize_1.DataTypes.STRING,
-        unique: true
+        type: String,
+        unique: true,
+        required: true,
+        immutable: true
     },
     password: {
-        type: sequelize_1.DataTypes === null || sequelize_1.DataTypes === void 0 ? void 0 : sequelize_1.DataTypes.STRING
+        type: String
     },
     profilePhoto: {
-        type: sequelize_1.DataTypes === null || sequelize_1.DataTypes === void 0 ? void 0 : sequelize_1.DataTypes.TEXT,
-        defaultValue: null
-    },
+        type: String
+    }
 }, {
     timestamps: true
 });
-User.sync();
+const User = mongoose_1.default.model('User', User_schema);
 exports.default = User;
 //# sourceMappingURL=user.model.js.map
